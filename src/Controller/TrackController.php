@@ -26,7 +26,7 @@ class TrackController extends AbstractController
     #[Route('/track', name: 'app_track_index')]
     public function index(): Response
     {
-        $response = $this->httpClient->request('GET', 'https://api.spotify.com/v1/search?query=kazzey&type=track&locale=fr-FR', [
+        $response = $this->httpClient->request('GET', 'https://api.spotify.com/v1/search?query=juicewrld&type=track&locale=fr-FR', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token,
             ],

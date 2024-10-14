@@ -3,13 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}My Project{% endblock %}</title>
+    <title>{% block title %}Spotify{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="img/spotify.png"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {% block stylesheets %}{% endblock %}
 </head>
 
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    body{
+        display: flex;
+    }
+
+    #sidebar{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 15vw;
+        background-color: #1db954;
+    }
+
+    #content {
+        width: 85vw;
+        height: 92vh;
+    }
+
+    #top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 85vw;
+        height: 8vh;
+        background-color: #1db954;
+    }
+</style>
+
 <body>
-{% block body %}
-{% endblock %}
+<div id="sidebar">
+    <h1>hey</h1>
+</div>
+<div id="content">
+    <div id="top">
+        <h1>hey</h1>
+    </div>
+    {% block body %}{% endblock %}
+</div>
 </body>
 </html>

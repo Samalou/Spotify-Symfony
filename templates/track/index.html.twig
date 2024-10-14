@@ -1,5 +1,39 @@
 {% extends 'base.html.twig' %}
 
+
+{% block stylesheets %}
+    <style>
+        #tracks{
+            background-color: red;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>HIIIIIIIIIIIIIIIIIIIIIIIIIIII</h1>
+<table id="tracks">
+    <tbody>
+    {% for track in tracks %}
+        <tr>
+            <td>{{ track.getName() }}</td>
+            <td>
+                {% set totalSeconds = track.getDurationMs() / 1000 %}
+                {% set minutes = totalSeconds // 60 %}
+                {% set seconds = totalSeconds % 60 %}
+                {{ minutes }}:{{ '%02d'|format(seconds) }}
+            </td>
+
+            <td>{{ track.getPopularity() }}</td>
+            <td><a href="{{ track.getSpotifyUrl() }}" target="_blank">Écouter</a></td>
+            <td>
+                {% if track.getPictureLink() %}
+                    <img src="{{ track.getPictureLink() }}" alt="Image de l'album" style="width: 50px; height: auto;">
+                {% else %}
+                    Pas d'image disponible
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
