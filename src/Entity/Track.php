@@ -2,22 +2,56 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
 class Track
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id; // Ajoute une propriété ID si elle n'existe pas
+
+    #[ORM\Column(type: 'integer')]
     private int $discNumber;
+
+    #[ORM\Column(type: 'integer')]
     private int $durationMs;
+
+    #[ORM\Column(type: 'boolean')]
     private bool $explicit;
+
+    #[ORM\Column(type: 'string', length: 12)]
     private string $isrc;
+
+    #[ORM\Column(type: 'string')]
     private string $spotifyUrl;
+
+    #[ORM\Column(type: 'string')]
     private string $href;
-    private string $id;
+
+    #[ORM\Column(type: 'boolean')]
     private bool $isLocal;
+
+    #[ORM\Column(type: 'string')]
     private string $name;
-    private int $popularity;
+
+    #[ORM\Column(type: 'string')]
+    private string $popularity;
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $previewUrl;
-    private int $trackNumber;
+
+    #[ORM\Column(type: 'string')]
+    private string $trackNumber;
+
+    #[ORM\Column(type: 'string')]
     private string $type;
+
+    #[ORM\Column(type: 'string')]
     private string $uri;
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $pictureLink;
 
     public function __construct(
@@ -27,12 +61,11 @@ class Track
         string $isrc,
         string $spotifyUrl,
         string $href,
-        string $id,
         bool $isLocal,
         string $name,
-        int $popularity,
+        string $popularity,
         ?string $previewUrl,
-        int $trackNumber,
+        string $trackNumber,
         string $type,
         string $uri,
         ?string $pictureLink
@@ -43,7 +76,6 @@ class Track
         $this->isrc = $isrc;
         $this->spotifyUrl = $spotifyUrl;
         $this->href = $href;
-        $this->id = $id;
         $this->isLocal = $isLocal;
         $this->name = $name;
         $this->popularity = $popularity;
@@ -85,11 +117,6 @@ class Track
         return $this->href;
     }
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
     public function isLocal(): bool
     {
         return $this->isLocal;
@@ -125,7 +152,7 @@ class Track
         return $this->uri;
     }
 
-    public function getPictureLink(): string
+    public function getPictureLink(): ?string
     {
         return $this->pictureLink;
     }

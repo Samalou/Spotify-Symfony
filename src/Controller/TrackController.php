@@ -7,7 +7,7 @@ use App\Service\AuthSpotifyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SearchType as SearchInputType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Request; // Ajout de l'import correct pour Request
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -59,6 +59,8 @@ class TrackController extends AbstractController
             ]);
 
             $tracks = $this->trackFactory->createMultipleFromSpotifyData($response->toArray()['tracks']['items']);
+
+            $tracks = array_slice($tracks, 0, 12);
         }
 
         return $this->render('track/index.html.twig', [
