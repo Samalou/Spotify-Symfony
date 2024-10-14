@@ -3,14 +3,75 @@
 
 {% block stylesheets %}
     <style>
+
+        .flex{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container{
+            flex-direction: column;
+            background-color: #232323;
+        }
+
+        #container form{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+
         #tracks{
-            background-color: red;
             width: 100%;
         }
+
+        td{
+            color: white;
+        }
+
+        [type=search]{
+            padding-left: 10px;
+            background-color: #131313;
+            border: 1px solid white;
+            color: white;
+            height: 30px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .submit{
+            background-color: #131313;
+            border: 1px solid white;
+            color: white;
+            height: 30px;
+        }
+
+        #search{
+            margin-top: 40px;
+            color: white;
+        }
+
+        #cards{
+            
+        }
+
     </style>
 {% endblock %}
 
 {% block body %}
+
+    <div id="container" class="flex">
+    <h1 id="search">Recherche</h1>
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+
+        <div id="cards">
+
+        </div>
+
 <table id="tracks">
     <tbody>
     {% for track in tracks %}
@@ -36,4 +97,7 @@
     {% endfor %}
     </tbody>
 </table>
+
+
+    </div>
 {% endblock %}
