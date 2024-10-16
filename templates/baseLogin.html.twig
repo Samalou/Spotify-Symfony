@@ -14,74 +14,9 @@
         margin: 0;
         padding: 0;
     }
-
-    .flex {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    body{
-        display: flex;
-        background-color:white;
-    }
-
-    #sidebar{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        width: 10vw;
-        color: white;
-
-    }
-
-    #content {
-        width: 90vw;
-        height: 92vh;
-    }
-
-    #top {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        width: 90vw;
-        height: 8vh;
-        color: white;
-    }
-
-
-    #account-button {
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: bold;
-        cursor: pointer;
-        height: 50%;
-        margin-right: 50px;
-        padding : 10px 10px 10px 10px;
-    }
-
-    ul{
-        list-style: none;
-    }
 </style>
 
 <body>
-<div id="sidebar">
-    <ul>
-        <li>Recherche Titre</li>
-        <li>Recherche Titre</li>
-        <li>Favoris</li>
-    </ul>
-</div>
-<div id="content">
-    <div id="top">
-        <button id="account-button" class="flex">Se connecter</button>
-    </div>
     {% block body %}{% endblock %}
-</div>
 </body>
 </html>

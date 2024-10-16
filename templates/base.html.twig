@@ -72,14 +72,14 @@
 <body>
 <div id="sidebar">
     <ul>
+        <li><a href={{ path('app_track_index') }}>Recherche Titre</a></li>
         <li>Recherche Titre</li>
-        <li>Recherche Titre</li>
-        <li>Favoris</li>
+        <li><a href={{ path('app_favorites') }}>Favoris</a></li>
     </ul>
 </div>
 <div id="content">
     <div id="top">
-        <button id="account-button" class="flex">Se connecter</button>
+        <a href="{{ path('app_logout') }}" id="account-button" class="flex btn btn-primary">{{ app.user.email }}</a>
     </div>
     {% block body %}{% endblock %}
 </div>

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favorites{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container {
+            flex-direction: column;
+            background-color: #232323;
+        }
+
+        #search {
+            margin-top: 30px;
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="container" class="flex">
+        <h1 id="search">Favoris</h1>
+    </div>
+{% endblock %}
