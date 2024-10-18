@@ -106,7 +106,7 @@
         <div id="cards_container">
             {% for track in tracks %}
                 <div class="card">
-                    <a><img src="IMG/coeur.png" id="coeur"></a>
+                    <a href="{{ path('app_add_favorites') }}"><img src="IMG/coeur.png" id="coeur"></a>
                     {% if track.getPictureLink() %}
                     <a href="{{ path('app_track_information', {'id' : track.getId()}) }}"><img src="{{ track.getPictureLink() }}" alt="Image de l'album"></a>
                     {% else %}

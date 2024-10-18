@@ -37,6 +37,7 @@ class TrackController extends AbstractController
         return $track;
     }
 
+    #[Route('/addfavorites', name: 'app_add_favorites')]
     public function addFavorite()
     {
         return $this->render('track/favorites.html.twig');
