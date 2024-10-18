@@ -44,8 +44,8 @@
             color: white;
         }
 
-        .card img {
-            width: 80%;
+        .card a img {
+            width: 100%;
             height: auto;
             border-radius: 10px;
         }
@@ -85,6 +85,13 @@
             margin-top: 30px;
             color: white;
         }
+        #coeur{
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            width: 40px;
+            height: 40px;
+        }
     </style>
 {% endblock %}
 
@@ -99,8 +106,9 @@
         <div id="cards_container">
             {% for track in tracks %}
                 <div class="card">
+                    <a><img src="IMG/coeur.png" id="coeur"></a>
                     {% if track.getPictureLink() %}
-                        <img src="{{ track.getPictureLink() }}" alt="Image de l'album">
+                    <a href="{{ path('app_track_information', {'id' : track.getId()}) }}"><img src="{{ track.getPictureLink() }}" alt="Image de l'album"></a>
                     {% else %}
                         <img src="/img/placeholder.png" alt="Pas d'image disponible">
                     {% endif %}

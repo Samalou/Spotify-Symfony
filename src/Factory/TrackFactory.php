@@ -3,12 +3,13 @@
 namespace App\Factory;
 
 use App\Entity\Track;
+use function Symfony\Component\Translation\t;
 
 class TrackFactory
 {
     public function createFromSpotifyData(array $spotifyData): Track
     {
-        return new Track(
+        $track = new Track(
             $spotifyData['disc_number'],
             $spotifyData['duration_ms'],
             $spotifyData['explicit'],
@@ -22,8 +23,12 @@ class TrackFactory
             (string)($spotifyData['track_number'] ?? ''),
             $spotifyData['type'],
             $spotifyData['uri'],
-            $spotifyData['album']['images'][0]['url'] ?? null
+               $spotifyData['album']['images'][0]['url'] ?? null
         );
+
+        $track->setId($spotifyData['id']);
+
+        return $track;
     }
 
     public function createMultipleFromSpotifyData(array $spotifyTracksData): array

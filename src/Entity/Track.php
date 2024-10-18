@@ -10,7 +10,7 @@ class Track
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id; // Ajoute une propriété ID si elle n'existe pas
+    private string $id;
 
     #[ORM\Column(type: 'integer')]
     private int $discNumber;
@@ -155,5 +155,15 @@ class Track
     public function getPictureLink(): ?string
     {
         return $this->pictureLink;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id)
+    {
+        $this->id = $id;
     }
 }

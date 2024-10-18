@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Track;
 use App\Factory\TrackFactory;
 use App\Service\AuthSpotifyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,41 @@ class TrackController extends AbstractController
         private readonly TrackFactory $trackFactory
     ) {
         $this->token = $this->authSpotifyService->auth();
+    }
+
+    public function getTrack(string $id): Track
+    {
+        $response = $this->httpClient->request('GET', 'https://api.spotify.com/v1/tracks/' . $id, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->token,
+            ]
+        ]);
+
+        $track = $this->trackFactory->createFromSpotifyData($response->toArray());
+        return $track;
+    }
+
+    public function addFavorite()
+    {
+        return $this->render('track/favorites.html.twig');
+    }
+
+
+    #[Route('/favorites', name: 'app_favorites')]
+    public function favorites(Request $request): Response
+    {
+        return $this->render('track/favorites.html.twig');
+    }
+
+    #[Route('/track/{id}', name: 'app_track_information')]
+    public function information(string $id): Response
+    {
+
+        $track = $this->getTrack($id);
+
+        return $this->render('track/information.html.twig', [
+            'track' => $track,
+        ]);
     }
 
     #[Route('/track', name: 'app_track_index')]

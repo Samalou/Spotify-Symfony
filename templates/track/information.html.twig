@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+        #track-picture{
+            width: 400px;
+            height: 400px;
+        }
+        .track-info img {
+            width: 50%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .track-info h1 {
+            margin-bottom: 10px;
+        }
+        .track-info p {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .track-info a {
+            text-decoration: none;
+            color: #1DB954;
+            font-size: 18px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="track-info">
+        {% if track.getPictureLink() %}
+            <img src="{{ track.getPictureLink() }}" alt="Image de l'album" id="track-picture">
+        {% else %}
+            <img src="/img/placeholder.png" alt="Pas d'image disponible">
+        {% endif %}
+
+        <h1>{{ track.getName() }}</h1>
+
+        <p>Popularitée : {{ track.getPopularity() }}</p>
+        <p>Type : {{ track.getType() }}</p>
+        <p>DiscNumber : {{ track.getDiscNumber() }}</p>
+    </div>
+{% endblock %}
