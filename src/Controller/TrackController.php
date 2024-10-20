@@ -69,6 +69,28 @@ class TrackController extends AbstractController
     }
 
 
+    #[Route('/delfavorites', name: 'app_del_favorites', methods: ['POST'])]
+    public function delFavorite(Request $request, TrackRepository $trackRepository, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $trackId = $request->request->get('id');
+        $track = $trackRepository->findOneBy(['id' => $trackId]);
+
+        if ($track && $user->getTracks()->contains($track)) {
+            $user->removeTrack($track);
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'Le morceau a été retiré de vos favoris.');
+        } else {
+            $this->addFlash('error', 'Le morceau n\'existe pas dans vos favoris.');
+        }
+
+        return $this->redirectToRoute('app_favorites');
+    }
+
+
+
 
     #[Route('/favorites', name: 'app_favorites')]
     public function favorites(Request $request): Response

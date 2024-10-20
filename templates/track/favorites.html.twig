@@ -18,6 +18,9 @@
         #container {
             flex-direction: column;
             background-color: #232323;
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
         }
 
         #search {
@@ -68,16 +71,42 @@
         .card .duration {
             font-size: 14px;
         }
+
+        #close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+        }
+
+        #close-button img {
+            width: 100%;
+            height: auto;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
-    <div id="container" class="flex">
+    <div id="container">
         <h1 id="search">Favoris</h1>
 
         <div id="cards_container">
             {% for track in tracks %}
                 <div class="card">
+
+                    <button id="close-button" onclick="document.getElementById('del-form-{{ track.getId() }}').submit();">
+                        <img src="/img/close.png" alt="Retirer des favoris">
+                    </button>
+
+                    <form id="del-form-{{ track.getId() }}" action="{{ path('app_del_favorites') }}" method="POST" style="display: none;">
+                        <input type="hidden" name="id" value="{{ track.getId() }}">
+                    </form>
+
+                    // TODO: Quand je clique sur la photo ça bug
+
                     {% if track.getPictureLink() %}
                         <a href="{{ path('app_track_information', {'id' : track.getId()}) }}">
                             <img src="{{ track.getPictureLink() }}" alt="Image de l'album">
@@ -87,13 +116,7 @@
                     {% endif %}
 
                     <h3>{{ track.getName() }}</h3>
-                    <p class="duration">
-                        {% set totalSeconds = track.getDurationMs() / 1000 %}
-                        {% set minutes = totalSeconds // 60 %}
-                        {% set seconds = totalSeconds % 60 %}
-                        Durée: {{ minutes }}:{{ '%02d'|format(seconds) }}
-                    </p>
-                    <p>Popularité: {{ track.getPopularity() }}</p>
+ 
                     <a href="{{ track.getSpotifyUrl() }}" target="_blank">Écouter sur Spotify</a>
                 </div>
             {% else %}
