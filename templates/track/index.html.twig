@@ -106,12 +106,21 @@
         <div id="cards_container">
             {% for track in tracks %}
                 <div class="card">
-                    <a href="{{ path('app_add_favorites') }}"><img src="IMG/coeur.png" id="coeur"></a>
+                    <form action="{{ path('app_add_favorites') }}" method="POST">
+                        <input type="hidden" name="id" value="{{ track.getId() }}">
+                        <button type="submit" id="coeur" style="background: none; border: none;">
+                            <img src="IMG/coeur.png" alt="Ajouter aux favoris" id="coeur">
+                        </button>
+                    </form>
+
                     {% if track.getPictureLink() %}
-                    <a href="{{ path('app_track_information', {'id' : track.getId()}) }}"><img src="{{ track.getPictureLink() }}" alt="Image de l'album"></a>
+                        <a href="{{ path('app_track_information', {'id' : track.getId()}) }}">
+                            <img src="{{ track.getPictureLink() }}" alt="Image de l'album">
+                        </a>
                     {% else %}
                         <img src="/img/placeholder.png" alt="Pas d'image disponible">
                     {% endif %}
+
                     <h3>{{ track.getName() }}</h3>
                     <p class="duration">
                         {% set totalSeconds = track.getDurationMs() / 1000 %}

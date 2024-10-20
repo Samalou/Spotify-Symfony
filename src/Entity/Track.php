@@ -54,6 +54,10 @@ class Track
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $pictureLink;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tracks')]
+    private ?User $user = null;
+
+
     public function __construct(
         int $discNumber,
         int $durationMs,
@@ -86,7 +90,17 @@ class Track
         $this->pictureLink = $pictureLink;
     }
 
-    // Getters for all properties
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+
     public function getDiscNumber(): int
     {
         return $this->discNumber;

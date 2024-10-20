@@ -6,12 +6,18 @@ use App\Entity\Track;
 use App\Factory\TrackFactory;
 use App\Service\AuthSpotifyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\SearchType as SearchInputType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+use App\Repository\TrackRepository;
+use Doctrine\ORM\EntityManagerInterface;
+
+
 
 class TrackController extends AbstractController
 {
@@ -37,17 +43,39 @@ class TrackController extends AbstractController
         return $track;
     }
 
-    #[Route('/addfavorites', name: 'app_add_favorites')]
-    public function addFavorite()
+    #[Route('/addfavorites', name: 'app_add_favorites', methods: ['POST'])]
+    public function addFavorite(Request $request, TrackRepository $trackRepository, EntityManagerInterface $em): Response
     {
-        return $this->render('track/favorites.html.twig');
+        $user = $this->getUser();
+        $trackId = $request->request->get('id');
+        $track = $trackRepository->findOneBy(['id' => $trackId]);
+
+        if (!$track) {
+            $track = $this->getTrack($trackId);
+            $em->persist($track);
+        }else{
+            
+        }
+
+        $user->addTrack($track);
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('app_favorites');
     }
+
 
 
     #[Route('/favorites', name: 'app_favorites')]
     public function favorites(Request $request): Response
     {
-        return $this->render('track/favorites.html.twig');
+        $user = $this->getUser();
+        $tracks = $user ? $user->getTracks() : [];
+
+        return $this->render('track/favorites.html.twig', [
+            'tracks' => $tracks,
+        ]);
     }
 
     #[Route('/track/{id}', name: 'app_track_information')]
