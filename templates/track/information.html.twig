@@ -8,26 +8,41 @@
             align-items: center;
             color: white;
         }
-        #track-picture{
+        #track-picture {
             width: 400px;
             height: 400px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
         .track-info img {
-            width: 50%;
             border-radius: 10px;
             margin-bottom: 20px;
         }
         .track-info h1 {
             margin-bottom: 10px;
+            font-size: 28px;
         }
         .track-info p {
             font-size: 18px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         .track-info a {
-            text-decoration: none;
             color: #1DB954;
             font-size: 18px;
+            text-decoration: underline;
+        }
+        .track-info .preview {
+            margin-top: 20px;
+            font-size: 18px;
+            color: white;
+        }
+        .track-info .explicit {
+            color: red;
+            font-weight: bold;
+        }
+        .track-info .duration {
+            margin-top: 5px;
+            color: #888;
         }
     </style>
 {% endblock %}
@@ -42,8 +57,23 @@
 
         <h1>{{ track.getName() }}</h1>
 
-        <p>Popularitée : {{ track.getPopularity() }}</p>
+        {% if track.isExplicit() %}
+            <p class="explicit">Explicit</p>
+        {% endif %}
+
+        <p>Popularité : {{ track.getPopularity() }}%</p>
         <p>Type : {{ track.getType() }}</p>
-        <p>DiscNumber : {{ track.getDiscNumber() }}</p>
+        <p>Numéro de disque : {{ track.getDiscNumber() }}</p>
+        <p class="duration">Durée : {{ (track.getDurationMs() / 1000) // 60 }} min {{ (track.getDurationMs() / 1000) % 60 }} sec</p>
+
+        <p class="preview">Écouter un extrait :</p>
+        {% if track.getPreviewUrl() %}
+            <div class="audio-player">
+                <audio controls>
+                    <source src="{{ track.getPreviewUrl() }}" type="audio/mpeg">
+                    Votre navigateur ne supporte pas l'élément audio.
+                </audio>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

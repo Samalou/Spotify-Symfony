@@ -53,8 +53,11 @@ class TrackController extends AbstractController
         if (!$track) {
             $track = $this->getTrack($trackId);
             $em->persist($track);
-        }else{
-            
+            $em->flush();
+
+            $this->addFlash('success', 'Le morceau a été ajouté avec succès.');
+        } else {
+            $this->addFlash('warning', 'Le morceau existe déjà.');
         }
 
         $user->addTrack($track);
