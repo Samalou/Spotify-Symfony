@@ -99,6 +99,7 @@ class TrackController extends AbstractController
 
 
 
+
     #[Route('/favorites', name: 'app_favorites')]
     public function favorites(Request $request): Response
     {

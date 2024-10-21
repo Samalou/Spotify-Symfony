@@ -95,6 +95,15 @@ class Track
         $this->users = new ArrayCollection();
     }
 
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeTrack($this);
+        }
+
+        return $this;
+    }
 
     public function getUsers(): Collection
     {

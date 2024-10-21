@@ -40,6 +40,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Track::class, inversedBy: 'users')]
     private Collection $tracks;
 
+
+
     public function addTrack(Track $track): static
     {
         if (!$this->tracks->contains($track)) {
@@ -48,16 +50,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     public function removeTrack(Track $track): self
     {
-        if ($this->tracks->removeElement($track)) {
-            if ($track->getUser() === $this) {
-                $track->setUser(null);
-            }
+        if ($this->tracks->contains($track)) {
+            $this->tracks->removeElement($track);
+            $track->removeUser($this);
         }
 
         return $this;
     }
+
 
     public function getId(): ?int
     {
