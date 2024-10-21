@@ -12,6 +12,7 @@ class Track
     #[ORM\Column(type: 'integer')]
     private string $id;
 
+
     #[ORM\Column(type: 'integer')]
     private int $discNumber;
 
@@ -89,6 +90,7 @@ class Track
         $this->uri = $uri;
         $this->pictureLink = $pictureLink;
     }
+
 
     public function getUser(): ?User
     {

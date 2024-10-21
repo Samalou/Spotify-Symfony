@@ -6,7 +6,6 @@ use App\Entity\Track;
 use App\Factory\TrackFactory;
 use App\Service\AuthSpotifyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\SearchType as SearchInputType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,16 +77,18 @@ class TrackController extends AbstractController
 
         if ($track && $user->getTracks()->contains($track)) {
             $user->removeTrack($track);
-            $em->persist($user);
+
+            $em->remove($track);
             $em->flush();
 
-            $this->addFlash('success', 'Le morceau a été retiré de vos favoris.');
+            $this->addFlash('success', 'Le morceau a été retiré de vos favoris et supprimé.');
         } else {
             $this->addFlash('error', 'Le morceau n\'existe pas dans vos favoris.');
         }
 
         return $this->redirectToRoute('app_favorites');
     }
+
 
 
 

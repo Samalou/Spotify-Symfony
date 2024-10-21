@@ -23,7 +23,7 @@ class TrackFactory
             (string)($spotifyData['track_number'] ?? ''),
             $spotifyData['type'],
             $spotifyData['uri'],
-               $spotifyData['album']['images'][0]['url'] ?? null
+                $spotifyData['album']['images'][0]['url'] ?? null
         );
 
         $track->setId($spotifyData['id']);
