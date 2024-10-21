@@ -78,16 +78,22 @@ class TrackController extends AbstractController
         if ($track && $user->getTracks()->contains($track)) {
             $user->removeTrack($track);
 
-            $em->remove($track);
-            $em->flush();
+            if ($track->getUsers()->isEmpty()) {
+                $em->remove($track);
+                $this->addFlash('success', 'Le morceau a été retiré de vos favoris et supprimé de la base de données.');
+            } else {
+                $this->addFlash('success', 'Le morceau a été retiré de vos favoris.');
+            }
 
-            $this->addFlash('success', 'Le morceau a été retiré de vos favoris et supprimé.');
+            $em->persist($user);
+            $em->flush();
         } else {
             $this->addFlash('error', 'Le morceau n\'existe pas dans vos favoris.');
         }
 
         return $this->redirectToRoute('app_favorites');
     }
+
 
 
 

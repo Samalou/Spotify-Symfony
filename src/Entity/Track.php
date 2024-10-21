@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 class Track
@@ -55,8 +57,9 @@ class Track
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $pictureLink;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tracks')]
-    private ?User $user = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'tracks')]
+    private Collection $users;
 
 
     public function __construct(
@@ -89,12 +92,13 @@ class Track
         $this->type = $type;
         $this->uri = $uri;
         $this->pictureLink = $pictureLink;
+        $this->users = new ArrayCollection();
     }
 
 
-    public function getUser(): ?User
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function setUser(?User $user): self

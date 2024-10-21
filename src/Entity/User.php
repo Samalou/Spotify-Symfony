@@ -37,16 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
-    #[ORM\OneToMany(targetEntity: Track::class, mappedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Track::class, inversedBy: 'users')]
     private Collection $tracks;
 
-    public function addTrack(Track $track): self
+    public function addTrack(Track $track): static
     {
         if (!$this->tracks->contains($track)) {
-            $this->tracks[] = $track;
-            $track->setUser($this);
+            $this->tracks->add($track);
         }
-
         return $this;
     }
 
