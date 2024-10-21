@@ -48,6 +48,45 @@
             font-style: italic;
             color: #888;
         }
+        #recommendations {
+            margin-top: 30px;
+        }
+        .recommendation-card {
+            flex-basis: 15%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+            background-color: #131313;
+            border: 1px solid white;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 5px;
+            width: 200px;
+            color: white;
+        }
+
+        .recommendation-card h3{
+            font-size: 18px;
+        }
+
+        .recommendation-card a{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .recommendation-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        #recommendations_container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #recommendations{
+            color: white;
+        }
     </style>
 {% endblock %}
 
@@ -88,6 +127,26 @@
                     </audio>
                 </div>
             {% endif %}
+        </div>
+    </div>
+
+    <div id="recommendations">
+        <h2 id="recommendations">Recommandations :</h2>
+        <div id="recommendations_container">
+            {% for recommendedTrack in recommendations %}
+                <div class="recommendation-card">
+                    <a href="{{ path('app_track_information', {'id' : recommendedTrack.getSpotifyId()}) }}">
+                        {% if recommendedTrack.getPictureLink() %}
+                            <img src="{{ recommendedTrack.getPictureLink() }}" alt="Image de l'album">
+                        {% else %}
+                            <img src="/img/placeholder.png" alt="Pas d'image disponible">
+                        {% endif %}
+                    </a>
+                    <h3>{{ recommendedTrack.getName() }}</h3>
+                </div>
+            {% else %}
+                <p>Aucune recommandation trouvée.</p>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

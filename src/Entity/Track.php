@@ -95,6 +95,12 @@ class Track
         $this->users = new ArrayCollection();
     }
 
+    public function getSpotifyId(): string
+    {
+        return basename($this->spotifyUrl);
+    }
+
+
     public function removeUser(User $user): self
     {
         if ($this->users->contains($user)) {

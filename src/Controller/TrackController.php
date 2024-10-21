@@ -114,13 +114,34 @@ class TrackController extends AbstractController
     #[Route('/track/{id}', name: 'app_track_information')]
     public function information(string $id): Response
     {
-
         $track = $this->getTrack($id);
+        $recommendations = [];
+
+        $spotifyUrl = $track->getSpotifyUrl();
+        $spotifyId = basename($spotifyUrl);
+
+
+        if ($track) {
+            $response = $this->httpClient->request('GET', 'https://api.spotify.com/v1/recommendations', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->token,
+                ],
+                'query' => [
+                    'seed_tracks' => $spotifyId,
+                    'limit' => 12,
+                ],
+            ]);
+
+            $data = $response->toArray();
+            $recommendations = $this->trackFactory->createMultipleFromSpotifyData($data['tracks']);
+        }
 
         return $this->render('track/information.html.twig', [
             'track' => $track,
+            'recommendations' => $recommendations,
         ]);
     }
+
 
     #[Route('/search/artistes', name: 'app_track_artistes')]
     public function artistesSearch(Request $request): Response
