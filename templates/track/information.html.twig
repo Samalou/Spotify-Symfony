@@ -4,44 +4,48 @@
     <style>
         .track-info {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            align-items: flex-start;
             color: white;
         }
         #track-picture {
-            width: 400px;
-            height: 400px;
+            width: 80vh;
+            height: 80vh;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-right: 30px;
         }
-        .track-info img {
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .track-details {
+            flex: 1;
         }
-        .track-info h1 {
-            margin-bottom: 10px;
+        .track-details h1 {
             font-size: 28px;
+            margin-bottom: 10px;
         }
-        .track-info p {
+        .track-details p {
             font-size: 18px;
             margin-bottom: 10px;
         }
-        .track-info a {
+        .track-details a {
             color: #1DB954;
             font-size: 18px;
             text-decoration: underline;
+            padding : 0;
         }
-        .track-info .preview {
+        .track-details .preview {
             margin-top: 20px;
-            font-size: 18px;
-            color: white;
         }
-        .track-info .explicit {
+        .track-details .explicit {
             color: red;
             font-weight: bold;
         }
-        .track-info .duration {
-            margin-top: 5px;
+        .track-details .duration, .track-details .popularity, .track-details .isrc {
+            color: #888;
+        }
+        .track-details .spotify-link {
+            margin-top: 10px;
+        }
+        .track-details .local-track {
+            font-style: italic;
             color: #888;
         }
     </style>
@@ -52,28 +56,38 @@
         {% if track.getPictureLink() %}
             <img src="{{ track.getPictureLink() }}" alt="Image de l'album" id="track-picture">
         {% else %}
-            <img src="/img/placeholder.png" alt="Pas d'image disponible">
+            <img src="/img/placeholder.png" alt="Pas d'image disponible" id="track-picture">
         {% endif %}
 
-        <h1>{{ track.getName() }}</h1>
+        <div class="track-details">
+            <h1>{{ track.getName() }}</h1>
 
-        {% if track.isExplicit() %}
-            <p class="explicit">Explicit</p>
-        {% endif %}
+            {% if track.isExplicit() %}
+                <p class="explicit">Explicit</p>
+            {% endif %}
 
-        <p>Popularité : {{ track.getPopularity() }}%</p>
-        <p>Type : {{ track.getType() }}</p>
-        <p>Numéro de disque : {{ track.getDiscNumber() }}</p>
-        <p class="duration">Durée : {{ (track.getDurationMs() / 1000) // 60 }} min {{ (track.getDurationMs() / 1000) % 60 }} sec</p>
+            <p class="popularity">Popularité : {{ track.getPopularity() }}%</p>
+            <p>Type : {{ track.getType() }}</p>
+            <p>Numéro de disque : {{ track.getDiscNumber() }}</p>
+            <p class="duration">Durée : {{ (track.getDurationMs() / 1000) // 60 }} min {{ (track.getDurationMs() / 1000) % 60 }} sec</p>
 
-        <p class="preview">Écouter un extrait :</p>
-        {% if track.getPreviewUrl() %}
-            <div class="audio-player">
-                <audio controls>
-                    <source src="{{ track.getPreviewUrl() }}" type="audio/mpeg">
-                    Votre navigateur ne supporte pas l'élément audio.
-                </audio>
-            </div>
-        {% endif %}
+            <p class="spotify-link">
+                <a href="{{ track.getSpotifyUrl() }}" target="_blank">Écouter sur Spotify</a>
+            </p>
+
+            {% if track.isLocal() %}
+                <p class="local-track">Cette piste est locale</p>
+            {% endif %}
+
+            <p class="preview">Écouter un extrait :</p>
+            {% if track.getPreviewUrl() %}
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="{{ track.getPreviewUrl() }}" type="audio/mpeg">
+                        Votre navigateur ne supporte pas l'élément audio.
+                    </audio>
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

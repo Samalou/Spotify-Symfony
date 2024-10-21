@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Spotify{% endblock %}</title>
-    <link rel="shortcut icon" type="image/png" href="img/spotify.png"/>
+    <link rel="shortcut icon" type="image/png" href="/img/spotify.png"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     {% block stylesheets %}{% endblock %}
 </head>
@@ -91,7 +91,7 @@
 <div id="sidebar">
     <ul>
         <li><a href={{ path('app_track_index') }}>Recherche Titre</a></li>
-        <li>Recherche Titre</li>
+        <li><a href={{ path('app_track_artistes') }}>Recherche Artistes</a></li>
         <li><a href={{ path('app_favorites') }}>Favoris</a></li>
     </ul>
 </div>

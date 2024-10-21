@@ -105,7 +105,7 @@
 {% block body %}
 
     <div id="container">
-        <h1 id="search">Recherche</h1>
+        <h1 id="search">Recherche Musiques</h1>
 
         {{ form_start(form) }}
         {{ form_end(form) }}
@@ -116,7 +116,7 @@
                     <form action="{{ path('app_add_favorites') }}" method="POST" class="flex">
                         <input type="hidden" name="id" value="{{ track.getId() }}">
                         <button type="submit" id="coeur" style="background: none; border: none;">
-                            <img src="IMG/coeur.png" alt="Ajouter aux favoris" id="coeur">
+                            <img src="/img/coeur.png" alt="Ajouter aux favoris" id="coeur">
                         </button>
                     </form>
 
