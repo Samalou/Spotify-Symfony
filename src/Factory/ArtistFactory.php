@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Factory;
 
 use App\Entity\Artist;
@@ -9,8 +10,9 @@ class ArtistFactory
     {
         $name = $data['name'] ?? 'Unknown Artist';
         $spotifyUrl = $data['external_urls']['spotify'] ?? '';
+        $imageUrl = $data['images'][0]['url'] ?? '';
 
-        return new Artist($name, $spotifyUrl);
+        return new Artist($name, $spotifyUrl, $imageUrl);
     }
 
     public function createMultipleFromSpotifyData(array $data): array

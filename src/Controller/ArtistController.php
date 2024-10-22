@@ -36,9 +36,15 @@ class ArtistController extends AbstractController
             ]
         ]);
 
-        $artist = $this->artistFactory->createFromSpotifyData($response->toArray());
+        $data = $response->toArray();
+        $imageUrl = $data['images'][0]['url'] ?? '';
+
+        $artist = $this->artistFactory->createFromSpotifyData($data);
+        $artist->setImageUrl($imageUrl);
+
         return $artist;
     }
+
 
     #[Route('/addartistfavorites', name: 'app_add_artist_favorites', methods: ['POST'])]
     public function addArtistFavorite(Request $request, ArtistRepository $artistRepository, EntityManagerInterface $em): Response

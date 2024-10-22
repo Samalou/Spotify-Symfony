@@ -23,14 +23,29 @@ class Artist
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'artists')]
     private Collection $users;
 
-    public function __construct(string $name, string $spotifyUrl)
+    #[ORM\Column(type: 'string')]
+    private string $imageUrl;
+
+    public function __construct(string $name, string $spotifyUrl, string $imageUrl)
     {
         $this->name = $name;
         $this->spotifyUrl = $spotifyUrl;
+        $this->imageUrl = $imageUrl;
         $this->users = new ArrayCollection();
     }
 
-    // Getters
+    public function getImageUrl(): string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
     public function getId(): int
     {
         return $this->id;
