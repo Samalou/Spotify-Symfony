@@ -118,17 +118,23 @@
         <div id="cards_container">
             {% for track in tracks %}
                 <div class="card">
+
                     {% if app.user %}
-                        <form action="{{ app.user.hasTrack(track.getIsrc()) ? path('app_del_favorites') : path('app_add_favorites') }}" method="POST" class="flex">
-                            <input type="hidden" name="id" value="{{ track.getId() }}">
-                            <button type="submit" id="coeur" style="background: none; border: none;">
-                                {% if app.user.hasTrack(track.getIsrc()) %}
+                        {% if app.user.hasTrack(track.getIsrc()) %}
+                            <form action="{{ path('app_del_favorites') }}" method="POST" class="flex" id="del-form-{{ track.getId() }}">
+                                <input type="hidden" name="id" value="{{ track.getId() }}">
+                                <button type="submit" id="coeur" style="background: none; border: none;">
                                     <i class="fas fa-heart" style="color: pink;"></i>
-                                {% else %}
+                                </button>
+                            </form>
+                        {% else %}
+                            <form action="{{ path('app_add_favorites') }}" method="POST" class="flex">
+                                <input type="hidden" name="id" value="{{ track.getId() }}">
+                                <button type="submit" id="coeur" style="background: none; border: none;">
                                     <i class="far fa-heart" style="color: #ff69b4;"></i>
-                                {% endif %}
-                            </button>
-                        </form>
+                                </button>
+                            </form>
+                        {% endif %}
                     {% endif %}
 
 
