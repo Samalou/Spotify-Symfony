@@ -53,10 +53,6 @@ class TrackController extends AbstractController
             $track = $this->getTrack($trackId);
             $em->persist($track);
             $em->flush();
-
-            $this->addFlash('success', 'Le morceau a été ajouté avec succès.');
-        } else {
-            $this->addFlash('warning', 'Le morceau existe déjà.');
         }
 
         $user->addTrack($track);
@@ -80,15 +76,10 @@ class TrackController extends AbstractController
 
             if ($track->getUsers()->isEmpty()) {
                 $em->remove($track);
-                $this->addFlash('success', 'Le morceau a été retiré de vos favoris et supprimé de la base de données.');
-            } else {
-                $this->addFlash('success', 'Le morceau a été retiré de vos favoris.');
             }
 
             $em->persist($user);
             $em->flush();
-        } else {
-            $this->addFlash('error', 'Le morceau n\'existe pas dans vos favoris.');
         }
 
         return $this->redirectToRoute('app_favorites');
