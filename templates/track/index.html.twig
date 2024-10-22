@@ -99,6 +99,10 @@
             width: 30px;
             height: 30px;
         }
+
+        #favorite-id {
+            color: white;
+        }
     </style>
 {% endblock %}
 
@@ -110,18 +114,28 @@
         {{ form_start(form) }}
         {{ form_end(form) }}
 
+
         <div id="cards_container">
             {% for track in tracks %}
                 <div class="card">
-                    <form action="{{ path('app_add_favorites') }}" method="POST" class="flex">
-                        <input type="hidden" name="id" value="{{ track.getId() }}">
-                        <button type="submit" id="coeur" style="background: none; border: none;">
-                            <img src="/img/coeur.png" alt="Ajouter aux favoris" id="coeur">
-                        </button>
-                    </form>
+                    {% if app.user %}
+                        <form action="{{ path(app.user.hasTrack(track.getIsrc()) ? 'app_del_favorites' : 'app_add_favorites') }}" method="POST" class="flex">
+                            <input type="hidden" name="id" value="{{ track.getId() }}">
+                            <button type="submit" id="coeur" style="background: none; border: none;">
+                                {% if app.user.hasTrack(track.getIsrc()) %}
+                                    <i class="fas fa-heart" style="color: pink;"></i>
+                                {% else %}
+                                    <i class="far fa-heart" style="color: #ff69b4;"></i>
+                                {% endif %}
+                            </button>
+                        </form>
+
+
+
+                    {% endif %}
 
                     {% if track.getPictureLink() %}
-                        <a href="{{ path('app_track_information', {'id' : track.getId()}) }}">
+                        <a href="{{ path('app_track_information', {'id' : track.id}) }}">
                             <img src="{{ track.getPictureLink() }}" alt="Image de l'album">
                         </a>
                     {% else %}
@@ -129,9 +143,12 @@
                     {% endif %}
 
                     <h3>{{ track.getName() }}</h3>
+                    <p>Has Track: {{ app.user.hasTrack(track.id) ? 'Yes' : 'No' }}</p>
+                    <p>{{ track.id }}</p>
                     <a href="{{ track.getSpotifyUrl() }}" target="_blank">Écouter sur Spotify</a>
                 </div>
             {% endfor %}
         </div>
+
     </div>
 {% endblock %}

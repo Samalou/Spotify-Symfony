@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -39,6 +40,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Track::class, inversedBy: 'users')]
     private Collection $tracks;
+    public function __construct() {
+        $this->tracks = new ArrayCollection();
+    }
+
 
 
 
@@ -49,6 +54,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         return $this;
     }
+
+    public function hasTrack(string $isrc): bool
+    {
+        foreach ($this->tracks as $track) {
+            if ($track->getIsrc() === $isrc) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
 
 
     public function removeTrack(Track $track): self

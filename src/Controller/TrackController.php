@@ -223,6 +223,7 @@ class TrackController extends AbstractController
                 ],
             ]);
 
+
             $tracks = $this->trackFactory->createMultipleFromSpotifyData($response->toArray()['tracks']['items']);
 
             $tracks = array_slice($tracks, 0, 12);
@@ -233,4 +234,11 @@ class TrackController extends AbstractController
             'tracks' => $tracks,
         ]);
     }
+
+    #[Route('/', name: 'home')]
+    public function home(): Response
+    {
+        return $this->redirectToRoute('app_track_index');
+    }
+
 }
