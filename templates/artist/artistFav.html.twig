@@ -1,4 +1,3 @@
-{# templates/artist/artistFav.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Favoris d'Artistes{% endblock %}
@@ -81,8 +80,15 @@
 
         <div id="cards_container">
             {% for artist in artistes %}
+
+                {% set urlParts = artist.spotifyUrl|split('/') %}
+                {% set artistId = urlParts[urlParts|length - 1] %}
+
                 <div class="card">
-                    <img src="{{ artist.imageUrl }}" alt="{{ artist.name }}" />
+                    <a href="{{ path('app_artist_information', {'id': artistId}) }}">
+                        <img src="{{ artist.imageUrl }}" alt="{{ artist.id }}">
+                    </a>
+
                     <h3>{{ artist.name }}</h3>
                     <a href="{{ artist.spotifyUrl }}" target="_blank">Écouter sur Spotify</a>
 

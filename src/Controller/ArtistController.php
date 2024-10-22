@@ -130,7 +130,7 @@ class ArtistController extends AbstractController
         ]);
     }
 
-    #[Route('/delartistfavorites', name: 'app_del_artist_favorites', methods: ['POST'])]
+    #[Route('/artist/del', name: 'app_del_artist_favorites', methods: ['POST'])]
     public function delArtistFavorite(Request $request, ArtistRepository $artistRepository, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
@@ -147,6 +147,27 @@ class ArtistController extends AbstractController
 
         return $this->redirectToRoute('app_artist_fav');
     }
+
+    #[Route('/artist/{id}', name: 'app_artist_information')]
+    public function information(string $id, ArtistRepository $artistRepository, EntityManagerInterface $em): Response
+    {
+        $artist = $artistRepository->find($id);
+
+        if (!$artist) {
+            $artist = $this->getArtist($id);
+
+            $em->persist($artist);
+            $em->flush();
+        }
+
+        return $this->render('artist/information.html.twig', [
+            'artist' => $artist,
+        ]);
+    }
+
+
+
+
 
 
 

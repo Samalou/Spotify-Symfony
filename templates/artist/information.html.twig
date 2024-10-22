@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .artist-info {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            color: white;
+        }
+        #artist-picture {
+            width: 80vh;
+            height: 80vh;
+            border-radius: 10px;
+            margin-right: 30px;
+        }
+        .artist-details {
+            flex: 1;
+        }
+        .artist-details h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .artist-details p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .artist-details a {
+            color: #1DB954;
+            font-size: 18px;
+            text-decoration: underline;
+            padding: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="artist-info">
+        {% if artist.getImageUrl() %}
+            <img src="{{ artist.getImageUrl() }}" alt="Image de l'artiste" id="artist-picture">
+        {% else %}
+            <img src="/img/placeholder.png" alt="Pas d'image disponible" id="artist-picture">
+        {% endif %}
+
+        <div class="artist-details">
+            <h1>{{ artist.getName() }}</h1>
+            <p><strong>Spotify URL:</strong> <a href="{{ artist.getSpotifyUrl() }}" target="_blank">{{ artist.getSpotifyUrl() }}</a></p>
+            <p><strong>Favoris:</strong> {{ artist.getUsers() | length }} utilisateur(s) le(s) suit(ent)</p>
+            <ul>
+                <li>ID de l'artiste: {{ artist.getId() }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
