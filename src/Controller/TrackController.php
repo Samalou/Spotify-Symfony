@@ -71,7 +71,7 @@ class TrackController extends AbstractController
         $trackId = $request->request->get('id');
         $track = $trackRepository->findOneBy(['id' => $trackId]);
 
-        if ($track && $user->getTracks()->contains($track)) {
+        if ($track && $user->getAllTracks()->contains($track)) {
             $user->removeTrack($track);
 
             if ($track->getUsers()->isEmpty()) {
@@ -95,7 +95,7 @@ class TrackController extends AbstractController
     public function favorites(Request $request): Response
     {
         $user = $this->getUser();
-        $tracks = $user ? $user->getTracks() : [];
+        $tracks = $user ? $user->getAllTracks() : [];
 
         return $this->render('track/favorites.html.twig', [
             'tracks' => $tracks,

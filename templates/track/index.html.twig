@@ -121,7 +121,7 @@
 
                     {% if app.user %}
                         {% if app.user.hasTrack(track.getIsrc()) %}
-                            <form action="{{ path('app_del_favorites') }}" method="POST" class="flex" id="del-form-{{ track.getId() }}">
+                            <form action="{{ path('app_del_favorites') }}" method="POST" class="flex">
                                 <input type="hidden" name="id" value="{{ track.getId() }}">
                                 <button type="submit" id="coeur" style="background: none; border: none;">
                                     <i class="fas fa-heart" style="color: pink;"></i>
