@@ -23,15 +23,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-    /**
-     * @var list<string> The user roles
-     */
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -40,11 +34,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Track::class, inversedBy: 'users')]
     private Collection $tracks;
-    public function __construct() {
-        $this->tracks = new ArrayCollection();
+
+    #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'users')]
+    private Collection $artists;
+
+    public function addArtist(Artist $artist): static
+    {
+        if (!$this->artists->contains($artist)) {
+            $this->artists->add($artist);
+            $artist->addUser($this);
+        }
+
+        return $this;
     }
 
 
+    public function getArtists(): Collection
+    {
+        return $this->artists;
+    }
+
+
+    public function __construct() {
+        $this->tracks = new ArrayCollection();
+        $this->artists = new ArrayCollection();
+    }
+
+
+    public function removeArtist(Artist $artist): self
+    {
+        if ($this->artists->removeElement($artist)) {
+            $artist->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getAllArtists(): Collection
+    {
+        return $this->artists;
+    }
 
 
     public function addTrack(Track $track): static

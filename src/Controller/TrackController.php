@@ -134,51 +134,6 @@ class TrackController extends AbstractController
     }
 
 
-    #[Route('/search/artistes', name: 'app_track_artistes')]
-    public function artistesSearch(Request $request): Response
-    {
-        $form = $this->createFormBuilder()
-            ->add('query', SearchInputType::class, [
-                'attr' => ['placeholder' => 'Rechercher'],
-                'label' => false,
-                'required' => true,
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Rechercher',
-                'attr' => ['class' => 'submit'],
-            ])
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        $artistes = [];
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $query = $form->get('query')->getData();
-
-            $response = $this->httpClient->request('GET', 'https://api.spotify.com/v1/search', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->token,
-                ],
-                'query' => [
-                    'q' => $query,
-                    'type' => 'artist',
-                    'locale' => 'fr-FR',
-                ],
-            ]);
-
-            $data = $response->toArray();
-            $artistes = $data['artists']['items'];
-        }
-
-        $artistes = array_slice($artistes, 0, 12);
-
-        return $this->render('track/artistesSearch.html.twig', [
-            'form' => $form->createView(),
-            'artistes' => $artistes,
-        ]);
-    }
-
 
     #[Route('/search/musique', name: 'app_track_index')]
     public function index(Request $request): Response

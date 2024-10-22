@@ -94,8 +94,9 @@
 <div id="sidebar">
     <ul>
         <li><a href={{ path('app_track_index') }}>Recherche Titre</a></li>
-        <li><a href={{ path('app_track_artistes') }}>Recherche Artistes</a></li>
+        <li><a href={{ path('app_artist_artistes') }}>Recherche Artistes</a></li>
         {% if app.user %}
+            <li><a href={{ path('app_artist_fav') }}>Favoris Artistes</a></li>
             <li><a href={{ path('app_favorites') }}>Favoris</a></li>
         {% endif %}
     </ul>

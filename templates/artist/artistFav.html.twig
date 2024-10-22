@@ -31,7 +31,6 @@
             width: 100%;
         }
 
-
         .card {
             flex-basis: 22%;
             display: flex;
@@ -46,6 +45,7 @@
             width: 200px;
             height: auto;
             color: white;
+            position: relative;
         }
 
         .card img {
@@ -67,50 +67,37 @@
             justify-content: center;
         }
 
-        .submit {
-            background-color: #131313;
-            border: 1px solid white;
-            color: white;
+        #coeur {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 30px;
             height: 30px;
         }
 
-        [type=search] {
-            padding-left: 10px;
-            background-color: #131313;
-            border: 1px solid white;
-            color: white;
-            height: 30px;
-            width: 200px;
-            margin-right: 10px;
-        }
-
-        #search{
+        #search {
             margin-top: 30px;
             color: white;
         }
-
     </style>
 {% endblock %}
 
 {% block body %}
     <div id="container">
-        <h1 id="search">Recherche d'Artistes</h1>
-
-        {{ form_start(form) }}
-        {{ form_end(form) }}
+        <h1 id="search">Favoris d'Artistes</h1>
 
         <div id="cards_container">
             {% for artist in artistes %}
-                <div class="card">
-                    {% if artist.images is defined and artist.images|length > 0 %}
-                        <img src="{{ artist.images[0].url }}" alt="{{ artist.name }}">
+                <div id="cards_container">
+                    {% for artist in artistes %}
+                        <div class="card">
+                            <h3>{{ artist.name }}</h3>
+                        </div>
                     {% else %}
-                        <img src="/img/placeholder_artist.png" alt="Pas d'image disponible">
-                    {% endif %}
-
-                    <h3>{{ artist.name }}</h3>
-                    <p>Genres : {{ artist.genres|join(', ') }}</p>
+                        <p>Aucun artiste favori trouvé.</p>
+                    {% endfor %}
                 </div>
+
             {% endfor %}
         </div>
     </div>
