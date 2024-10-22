@@ -140,12 +140,15 @@ class ArtistController extends AbstractController
 
         if ($artist) {
             $user->removeArtist($artist);
+            $em->remove($artist);
             $em->persist($user);
             $em->flush();
         }
 
         return $this->redirectToRoute('app_artist_fav');
     }
+
+
 
 
 }

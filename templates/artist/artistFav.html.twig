@@ -58,12 +58,26 @@
             text-align: center;
             margin-top: 5px;
         }
+        #close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+        }
+
+        #close-button img {
+            width: 100%;
+            height: auto;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     <div id="container">
-        <h1>Favoris d'Artistes</h1>
+        <h1>Favoris Artistes</h1>
 
         <div id="cards_container">
             {% for artist in artistes %}
@@ -71,9 +85,14 @@
                     <img src="{{ artist.imageUrl }}" alt="{{ artist.name }}" />
                     <h3>{{ artist.name }}</h3>
                     <a href="{{ artist.spotifyUrl }}" target="_blank">Écouter sur Spotify</a>
+
+                    <form id="del-form-{{ artist.id }}" action="{{ path('app_del_artist_favorites') }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="id" value="{{ artist.id }}">
+                        <button id="close-button" type="submit">
+                            <img src="/img/close.png" alt="Retirer des favoris">
+                        </button>
+                    </form>
                 </div>
-            {% else %}
-                <p>Aucun artiste favori trouvé.</p>
             {% endfor %}
         </div>
     </div>
